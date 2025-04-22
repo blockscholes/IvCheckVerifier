@@ -3,6 +3,7 @@ pragma solidity ^0.8.26;
 
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
+
 contract IvCheckVerifier is EIP712 {
     using ECDSA for bytes32;
 
@@ -23,9 +24,8 @@ contract IvCheckVerifier is EIP712 {
         uint8 v;
     }
 
-    bytes32 private constant _VALUES_TYPEHASH =
-        keccak256("Values(string sid,uint256[] strike,uint256[] v)");
-    
+    bytes32 private constant _VALUES_TYPEHASH = keccak256("Values(string sid,uint256[] strike,uint256[] v)");
+
     bytes32 private constant _DATA_TYPEHASH =
         keccak256("Data(Values[] values,int256 timestamp)Values(string sid,uint256[] strike,uint256[] v)");
 
@@ -36,9 +36,9 @@ contract IvCheckVerifier is EIP712 {
         return keccak256(
             abi.encode(
                 _VALUES_TYPEHASH,
-                keccak256(bytes(v.sid)),         // Hash sid
-                keccak256(abi.encodePacked(v.strike)),  // Hash strike array
-                keccak256(abi.encodePacked(v.v))       // Hash v array
+                keccak256(bytes(v.sid)), // Hash sid
+                keccak256(abi.encodePacked(v.strike)), // Hash strike array
+                keccak256(abi.encodePacked(v.v)) // Hash v array
             )
         );
     }
@@ -62,11 +62,7 @@ contract IvCheckVerifier is EIP712 {
     }
 
     /// @notice Verifies an EIP-712 signature for `Data`
-    function verifyData(
-        Data memory data,
-        SplitSig memory sig,
-        address signer
-    ) public view returns (bool) {
+    function verifyData(Data memory data, SplitSig memory sig, address signer) public view returns (bool) {
         bytes32 structHash = _hashData(data);
         bytes32 digest = _hashTypedDataV4(structHash);
         address recoveredSigner = digest.recover(sig.v, sig.r, sig.s);

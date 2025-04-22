@@ -89,12 +89,9 @@ contract IvCheckVerifierTest is Test {
             strikes.push(wsApiStikes[i]);
             v.push(wsApiV[i]);
         }
-        values.push(IvCheckVerifier.Values({sid: "0x1",strike: strikes, v: v}));
+        values.push(IvCheckVerifier.Values({sid: "0x1", strike: strikes, v: v}));
 
-        IvCheckVerifier.Data memory data = IvCheckVerifier.Data({
-            values: values,
-            timestamp: int256(1745343870500)
-        });
+        IvCheckVerifier.Data memory data = IvCheckVerifier.Data({values: values, timestamp: int256(1745343870500)});
 
         IvCheckVerifier.SplitSig memory sig = IvCheckVerifier.SplitSig({
             r: 0xcf47b5c77c19b6d3c4265e16b105a3595b451cc6100a107a0c2881894ccf51f6,
