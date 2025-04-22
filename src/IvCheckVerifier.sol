@@ -3,7 +3,6 @@ pragma solidity ^0.8.26;
 
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
-
 contract IvCheckVerifier is EIP712 {
     using ECDSA for bytes32;
 
@@ -30,7 +29,7 @@ contract IvCheckVerifier is EIP712 {
     bytes32 private constant _DATA_TYPEHASH =
         keccak256("Data(Values[] values,int256 timestamp)Values(string sid,uint256[] strike,uint256[] v)");
 
-    constructor() EIP712("PolarityOperationalTreasury", "1") {}
+    constructor() EIP712("BS_TEST", "1") {}
 
     /// @notice Hashes the `Values` struct
     function _hashValues(Values memory v) internal pure returns (bytes32) {
