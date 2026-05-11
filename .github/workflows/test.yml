@@ -4,6 +4,14 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      runner_type:
+        description: "Runner type: 'self-hosted' (default) or 'github-hosted'"
+        type: choice
+        default: self-hosted
+        options:
+          - self-hosted
+          - github-hosted
 
 env:
   FOUNDRY_PROFILE: ci
@@ -14,7 +22,7 @@ jobs:
       fail-fast: true
 
     name: Foundry project
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner_type == 'github-hosted' && 'arm-runner' || fromJSON('["self-hosted","ARM64"]') }}
     steps:
       - uses: actions/checkout@v4
         with:
